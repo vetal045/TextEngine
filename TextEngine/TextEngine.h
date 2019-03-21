@@ -9,7 +9,7 @@
 namespace TextEngine
 {
 	//aliases
-	using anyFun = std::function<void(void)>;
+	using anyFun = std::function<std::string(void)>;
 	using funcs = std::map<std::string, anyFun>;
 
 	//
@@ -38,6 +38,7 @@ namespace TextEngine
 
 	private:
 		funcs fs;
+		std::map<std::string, std::string> outInfo;
 		std::vector<std::string> args;
 
 		//
@@ -47,20 +48,19 @@ namespace TextEngine
 	public:
 		void registerFunc(anyFun funs, const std::string& nameFunc);
 
-		//test
-		//***
-		//void registerFunc(const std::string& nameFunc, const std::vector<std::string>& args_);
-		//***
+		void deleteFunc(const std::string& nameFunc);
 
 		void execFunc(const std::string& nameFunc);
 
-		//test too
-		//***
-		//void execFunc(const std::string& nameFunc, const std::vector<std::string>& args_);
-		//***
+		void setCommandOutput(const std::string nameFunc, std::string res);
+
+		const std::string getCommandOutput(const std::string nameFunc) const;
 
 		bool isExistedFunc(const std::string& nameFunc);
+
 		const funcs getRegisteredFuncs() const;
+
+		void call(anyFun f) const;
 
 		//
 		// Private methods.

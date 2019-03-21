@@ -1,6 +1,9 @@
 #include "Console.h"
+#include "AvailableFunctions.h"
 
 #include <sstream>
+
+using namespace std::placeholders;
 
 Console::Console()
 {
@@ -8,21 +11,6 @@ Console::Console()
 
 void Console::work()
 {
-	//some functions
-	//***
-	auto sum = [](std::vector<std::string>& strings)
-	{
-		std::string sum;
-
-		for (std::string s : strings)
-		{
-			sum.append(s);
-		}
-
-		std::cout << sum << std::endl;
-	};
-	//***
-
 	while (true)
 	{
 		std::cout << "&:";
@@ -42,18 +30,22 @@ void Console::work()
 		if (!args.empty())
 		{
 			command = getCommand(args);
+
+			for (auto s : args)
+			{
+				std::cout <<"!!!"<< s << " ";
+			}
 		}
 
-		te.registerFunc(std::bind(sum, args), "+");
-
-		if (te.isExistedFunc(command))
+		if (command == "+")
 		{
-			//that part should be changed during future development
-			//***
-			//te.registerFunc(command, args);
-			//***
+			addFunc("+", std::bind(Function::sum, args));
 
 			te.execFunc(command);
+
+			te.deleteFunc(command);
+
+			args.clear();
 
 			continue;
 		}
@@ -80,6 +72,11 @@ void Console::work()
 		std::cout.flush();
 		args.clear();
 	}
+}
+
+void Console::addFunc(const std::string nameFunc, TextEngine::anyFun func)
+{
+	te.registerFunc(func, nameFunc);
 }
 
 const std::string Console::getCommand(std::vector<std::string>& args_)

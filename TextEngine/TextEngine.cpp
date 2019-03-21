@@ -31,28 +31,27 @@ namespace TextEngine
 		fs.insert(std::pair<std::string, anyFun>(nameFunc, funs));
 	}
 
-	//void TextEngine::registerFunc(const std::string & nameFunc, const std::vector<std::string>& args_)
-	//{
-	//	auto sumStrings = [](std::vector<std::string>& strings)
-	//	{
-	//		std::string sum;
-
-	//		for (std::string s : strings)
-	//		{
-	//			sum.append(s);
-	//		}
-	//	};
-
-	//	registerFunc(std::bind(sumStrings, args_), nameFunc);
-	//}
+	void TextEngine::deleteFunc(const std::string & nameFunc)
+	{
+		if (isExistedFunc(nameFunc))
+		{
+			fs.erase(fs.find(nameFunc));
+		}
+		else 
+		{
+			std::runtime_error("function is not existed.");
+		}
+	}
 
 	void TextEngine::execFunc(const std::string & nameFunc)
 	{
-		auto funcToRun = fs.find(nameFunc);
-
-		if (funcToRun != fs.end())
+		if (isExistedFunc(nameFunc))
 		{
-			funcToRun->second();
+			auto funcToRun = fs.find(nameFunc);
+
+			auto result = funcToRun->second();
+
+			setCommandOutput(nameFunc, result);
 		}
 		else
 		{
@@ -60,12 +59,24 @@ namespace TextEngine
 		}
 	}
 
-	/*void TextEngine::execFunc(const std::string & nameFunc, const std::vector<std::string>& args_)
+	void TextEngine::setCommandOutput(const std::string nameFunc, const std::string res)
 	{
-		args = args_;
+		//if contains result of the function already - change result
+		//else create(insert) new result of the function
+		if (outInfo.count(nameFunc) == 1)
+		{
+			outInfo.find(nameFunc)->second = res;
+		}
+		else
+		{
+			outInfo.insert(std::pair<std::string, std::string>(nameFunc, res));
+		}
+	}
 
-		execFunc(nameFunc);
-	}*/
+	const std::string TextEngine::getCommandOutput(const std::string nameFunc) const
+	{
+		return outInfo.find(nameFunc)->second;
+	}
 
 	bool TextEngine::isExistedFunc(const std::string & nameFunc)
 	{
@@ -77,5 +88,10 @@ namespace TextEngine
 	const funcs TextEngine::getRegisteredFuncs() const
 	{
 		return fs;
+	}
+
+	void TextEngine::call(anyFun f) const
+	{
+		f();
 	}
 }

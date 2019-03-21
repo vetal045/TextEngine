@@ -25,9 +25,10 @@ public:
 
 public:
 	void work();
+	void addFunc(const std::string nameFunc, TextEngine::anyFun func);
 
 	//
-	//helpfull functions
+	//Helpfull functions
 	//
 
 	//! Gets command from entered line be user 
@@ -39,8 +40,6 @@ public:
 
 private:
 	TextEngine::TextEngine te;
+	std::vector<TextEngine::anyFun> registeredFuncs;
 	std::vector<std::string> args;
-
-	std::string command;
-	//std::map<std::string, std::vector<std::string>> args;
 };
