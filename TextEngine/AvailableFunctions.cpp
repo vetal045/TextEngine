@@ -1,7 +1,5 @@
 #include "AvailableFunctions.h"
 
-#include <iostream>
-
 namespace Function
 {
 	const std::string sum(std::vector<std::string> args)
@@ -15,8 +13,6 @@ namespace Function
 				sum.append(s);
 			}
 		}
-
-		std::cout << "Sum is: "<< sum << std::endl;
 
 		return sum;
 	}

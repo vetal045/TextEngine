@@ -2,15 +2,17 @@
 #include "Console.h"
 #include "TextEngine.h"
 
+using namespace std;
+
 int main()
 {
 	// #####  USING JUST TextEngine ######
-
-	auto sumStrings = [](std::vector<std::string>& strings) -> std::string
+	
+	auto sumStrings = [](const std::vector<std::string>& strings) -> std::string
 	{
 		std::string sum;
 
-		for (std::string s : strings)
+		for (const std::string &s : strings)
 		{
 			sum.append(s);
 		}
@@ -45,6 +47,20 @@ int main()
 
 	cons.work();
 	// *****  USING Console *****
+	
+
+	//map<string, string> c;
+
+	//c.insert(make_pair<string, string>("1", "2"));
+
+	//auto d = c.find("1");
+
+	//d->second = "3";
+
+	//for (auto i : c)
+	//{
+	//	cout << i.first << " " << i.second << endl;
+	//}
 
 	return 0;
 }

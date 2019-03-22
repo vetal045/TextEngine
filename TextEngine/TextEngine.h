@@ -25,12 +25,14 @@ namespace TextEngine
 	public:
 		TextEngine();
 		TextEngine(const TextEngine& te);
+		TextEngine(TextEngine&& te);
 
 		//
 		// Operators.
 		//
 
 		TextEngine& operator=(const TextEngine& other);
+		TextEngine& operator=(TextEngine&& other);
 
 		//
 		// Private data members.
@@ -52,20 +54,22 @@ namespace TextEngine
 
 		void execFunc(const std::string& nameFunc);
 
-		void setCommandOutput(const std::string nameFunc, std::string res);
+		void setCommandOutput(const std::string& nameFunc,  const std::string& res);
 
-		const std::string getCommandOutput(const std::string nameFunc) const;
+		std::string getCommandOutput(const std::string& nameFunc) const;
 
 		bool isExistedFunc(const std::string& nameFunc);
 
 		const funcs getRegisteredFuncs() const;
 
-		void call(anyFun f) const;
-
 		//
 		// Private methods.
 		//
+
 	private:
-		
+		funcs::const_iterator getFunctionIterator(const std::string& nameFunc) const;
 	};
+
+	//it calls any funtion
+	void call(anyFun f);
 }

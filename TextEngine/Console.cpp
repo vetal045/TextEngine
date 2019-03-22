@@ -15,12 +15,12 @@ void Console::work()
 	{
 		std::cout << "&:";
 
-		std::stringstream ss;
 		std::string s, out, command;
 
 		std::getline(std::cin, s);
 
-		ss << s;
+		std::stringstream ss(s);
+		//ss << s;
 
 		while (ss >> out)
 		{
@@ -30,11 +30,6 @@ void Console::work()
 		if (!args.empty())
 		{
 			command = getCommand(args);
-
-			for (auto s : args)
-			{
-				std::cout <<"!!!"<< s << " ";
-			}
 		}
 
 		if (command == "+")
@@ -68,7 +63,6 @@ void Console::work()
 
 		std::cout << "Unknown command." << std::endl;
 
-		command = "";
 		std::cout.flush();
 		args.clear();
 	}
