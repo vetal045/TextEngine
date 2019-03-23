@@ -20,34 +20,30 @@ void Console::work()
 		std::getline(std::cin, s);
 
 		std::stringstream ss(s);
-		//ss << s;
 
 		while (ss >> out)
 		{
-			args.push_back(out);
+			args_.push_back(out);
 		}
 
-		if (!args.empty())
+		if (!args_.empty())
 		{
-			command = getCommand(args);
+			command = getCommand(args_);
 		}
 
-		if (command == "+")
+		if (te_.isExistedFunc(command))
 		{
-			addFunc("+", std::bind(Function::sum, args));
+			//addFunc("+", std::bind(Function::sum, args_));
 
-			te.execFunc(command);
+			te_.execFunc(command, args_);
 
-			te.deleteFunc(command);
+			std::cout << te_.getCommandOutput(command) << std::endl;
 
-			args.clear();
+			//te_.deleteFunc(command);
+
+			args_.clear();
 
 			continue;
-		}
-		
-		if (command == "q")
-		{
-			break;
 		}
 
 		if (command == "help")
@@ -61,26 +57,41 @@ void Console::work()
 			continue;
 		}
 
+		if (command == "q")
+		{
+			break;
+		}
+
 		std::cout << "Unknown command." << std::endl;
 
 		std::cout.flush();
-		args.clear();
+		args_.clear();
 	}
 }
 
 void Console::addFunc(const std::string nameFunc, TextEngine::anyFun func)
 {
-	te.registerFunc(func, nameFunc);
+	te_.registerFunc(nameFunc, func);
 }
 
-const std::string Console::getCommand(std::vector<std::string>& args_)
+void Console::setTextEngine(const TextEngine::TextEngine & te)
+{
+	te_ = te;
+}
+
+TextEngine::TextEngine Console::getTextEngine() const
+{
+	return te_;
+}
+
+const std::string Console::getCommand(std::vector<std::string>& args)
 {
 	std::string command;
 
-	if (!args_.empty())
+	if (!args.empty())
 	{
-		command = args_.front();
-		args_.erase(args_.begin());
+		command = args.front();
+		args.erase(args.begin());
 	}
 
 	return command;

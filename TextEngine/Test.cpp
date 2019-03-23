@@ -6,61 +6,58 @@ using namespace std;
 
 int main()
 {
-	// #####  USING JUST TextEngine ######
-	
-	auto sumStrings = [](const std::vector<std::string>& strings) -> std::string
+	try
 	{
-		std::string sum;
+		
 
-		for (const std::string &s : strings)
+		// #####  USING JUST TextEngine ######
+
+		using Args = vector<string>;
+
+		auto sumStrings = [](const Args& strings) -> std::string
 		{
-			sum.append(s);
-		}
+			std::string sum;
 
-		std::cout << sum << std::endl ;
+			for (const std::string &s : strings)
+			{
+				sum.append(s);
+			}
 
-		return sum;
-	};
+			return sum;
+		};
 
+		TextEngine::TextEngine a;
 
-	TextEngine::TextEngine a;
+		std::vector<std::string> v{ "fsdf", "asfa" };
 
-	std::vector<std::string> v = { "Hello" , "Vitalii" };
+		a.registerFunc("+", sumStrings);
 
-	a.registerFunc(bind(sumStrings, v), "+");
+		a.execFunc("+", { "2", "3" });
+		std::cout << a.getCommandOutput("+") << std::endl;
+		std::cout << a.isExistedFunc("+") << std::endl;
 
-	a.execFunc("+");
+		a.execFunc("+", v);
+		std::cout << a.getCommandOutput("+") << std::endl;
 
-	std::cout << a.getCommandOutput("+") << std::endl;
-
-	std::cout << a.isExistedFunc("+")<< std::endl;
-
-	a.deleteFunc("+");
-
-	std::cout << a.isExistedFunc("+") << std::endl;
-
-	// #####  USING JUST TextEngine ######
+		// #####  USING JUST TextEngine ######
 
 
-	// *****  USING Console *****
-	Console cons;
+		// *****  USING Console *****
 
-	cons.work();
-	// *****  USING Console *****
+		Console cons;
+		cons.setTextEngine(a);
+		cons.work();
+
+		// *****  USING Console *****
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << "Error is - " << e.what() << std::endl;
+	}
+	catch (...)
+	{
+		std::cerr << "Unknown error." << std::endl;
+	}
 	
-
-	//map<string, string> c;
-
-	//c.insert(make_pair<string, string>("1", "2"));
-
-	//auto d = c.find("1");
-
-	//d->second = "3";
-
-	//for (auto i : c)
-	//{
-	//	cout << i.first << " " << i.second << endl;
-	//}
-
 	return 0;
 }

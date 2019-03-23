@@ -26,20 +26,23 @@ public:
 public:
 	void work();
 	void addFunc(const std::string nameFunc, TextEngine::anyFun func);
+	
+	void setTextEngine(const TextEngine::TextEngine& te);
+	TextEngine::TextEngine getTextEngine() const;
 
 	//
 	//Helpfull functions
 	//
 
 	//! Gets command from entered line be user 
-	const std::string getCommand(std::vector<std::string>& args_);
+	const std::string getCommand(std::vector<std::string>& args);
 
 	//
 	// Private data members.
 	//
 
 private:
-	TextEngine::TextEngine te;
-	std::vector<TextEngine::anyFun> registeredFuncs;
-	std::vector<std::string> args;
+	TextEngine::TextEngine te_;
+	std::vector<TextEngine::anyFun> registeredFuncs_;
+	std::vector<std::string> args_;
 };

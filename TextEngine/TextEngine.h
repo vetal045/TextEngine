@@ -9,7 +9,7 @@
 namespace TextEngine
 {
 	//aliases
-	using anyFun = std::function<std::string(void)>;
+	using anyFun = std::function<std::string(std::vector<std::string>)>;
 	using funcs = std::map<std::string, anyFun>;
 
 	//
@@ -39,20 +39,22 @@ namespace TextEngine
 		//
 
 	private:
-		funcs fs;
-		std::map<std::string, std::string> outInfo;
-		std::vector<std::string> args;
+		funcs fs_;
+		std::map<std::string, std::string> outInfo_;
+		std::vector<std::string> args_;
 
 		//
 		// Public methods.
 		//
 
 	public:
-		void registerFunc(anyFun funs, const std::string& nameFunc);
+		void registerFunc(const std::string& nameFunc, anyFun funs);
 
 		void deleteFunc(const std::string& nameFunc);
 
 		void execFunc(const std::string& nameFunc);
+
+		void execFunc(const std::string& nameFunc, const std::vector<std::string>& args);
 
 		void setCommandOutput(const std::string& nameFunc,  const std::string& res);
 
